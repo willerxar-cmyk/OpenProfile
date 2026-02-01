@@ -11,7 +11,6 @@ const navItems = [
   { href: '/admin/projects', label: 'Projects', icon: FolderKanban },
   { href: '/admin/blog', label: 'Blog', icon: FileText },
   { href: '/admin/curriculum', label: 'Curriculum', icon: GraduationCap },
-  { href: '/admin/categories', label: 'Categories', icon: Tags },
   { href: '/admin/profile', label: 'Profile', icon: User },
   { href: '/admin/menu', label: 'Menu', icon: Menu },
   { href: '/admin/settings', label: 'Settings', icon: Settings },

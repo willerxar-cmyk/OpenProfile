@@ -1,15 +1,35 @@
+'use client'
+
+import { useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Plus, Star, StarOff, Eye, EyeOff, Pencil, Trash2 } from 'lucide-react'
-import { getAllBlogPostsAdmin } from '@/lib/blog'
-import { deleteBlogPost, toggleBlogPostFeatured, toggleBlogPostPublished } from './actions'
+import { useBlog } from '@/hooks/useBlog'
+import { CategoryModal } from '@/components/CategoryModal'
+import blogCategoriesData from '@/data/blog-categories.json'
 
-export const dynamic = 'force-dynamic'
+export default function AdminBlogPage() {
+  const { posts, deletePost, updatePost } = useBlog()
+  const [categories, setCategories] = useState(blogCategoriesData.categories)
 
-export default async function AdminBlogPage() {
-  const posts = await getAllBlogPostsAdmin()
+  const handleTogglePublished = async (id: string, current: boolean) => {
+    await updatePost(id, { 
+      published: !current, 
+      status: !current ? 'published' : 'draft' 
+    })
+  }
+
+  const handleToggleFeatured = async (id: string, current: boolean) => {
+    await updatePost(id, { featured: !current })
+  }
+
+  const handleDelete = async (id: string) => {
+    if (confirm('Tem certeza que deseja excluir este post?')) {
+      await deletePost(id)
+    }
+  }
 
   return (
     <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
@@ -18,12 +38,19 @@ export default async function AdminBlogPage() {
           <h1 className="text-3xl font-bold">Blog</h1>
           <p className="text-muted-foreground mt-1">Gerencie seus posts</p>
         </div>
-        <Link href="/admin/blog/new">
-          <Button>
-            <Plus className="w-4 h-4 mr-2" />
-            Novo Post
-          </Button>
-        </Link>
+        <div className="flex items-center gap-2">
+          <CategoryModal 
+            type="blog" 
+            categories={categories} 
+            onCategoriesChange={setCategories} 
+          />
+          <Link href="/admin/blog/new">
+            <Button>
+              <Plus className="w-4 h-4 mr-2" />
+              Novo Post
+            </Button>
+          </Link>
+        </div>
       </div>
 
       <div className="border rounded-lg">
@@ -60,26 +87,35 @@ export default async function AdminBlogPage() {
                 </TableCell>
                 <TableCell className="text-right">
                   <div className="inline-flex items-center gap-2">
-                    <form action={toggleBlogPostPublished.bind(null, post.id, !post.published)}>
-                      <Button variant="ghost" size="icon" className="h-8 w-8" type="submit">
-                        {post.published ? <Eye className="w-4 h-4 text-emerald-600" /> : <EyeOff className="w-4 h-4 text-muted-foreground" />}
-                      </Button>
-                    </form>
-                    <form action={toggleBlogPostFeatured.bind(null, post.id, !post.featured)}>
-                      <Button variant="ghost" size="icon" className="h-8 w-8" type="submit">
-                        {post.featured ? <Star className="w-4 h-4 text-amber-500 fill-amber-500" /> : <StarOff className="w-4 h-4 text-muted-foreground" />}
-                      </Button>
-                    </form>
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="h-8 w-8"
+                      onClick={() => handleTogglePublished(post.id, post.published)}
+                    >
+                      {post.published ? <Eye className="w-4 h-4 text-emerald-600" /> : <EyeOff className="w-4 h-4 text-muted-foreground" />}
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="h-8 w-8"
+                      onClick={() => handleToggleFeatured(post.id, post.featured)}
+                    >
+                      {post.featured ? <Star className="w-4 h-4 text-amber-500 fill-amber-500" /> : <StarOff className="w-4 h-4 text-muted-foreground" />}
+                    </Button>
                     <Button asChild variant="ghost" size="icon" className="h-8 w-8">
                       <Link href={`/admin/blog/edit/${post.id}`}>
                         <Pencil className="w-4 h-4" />
                       </Link>
                     </Button>
-                    <form action={deleteBlogPost.bind(null, post.id)}>
-                      <Button variant="ghost" size="icon" className="h-8 w-8 text-red-500 hover:text-red-600" type="submit">
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </form>
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="h-8 w-8 text-red-500 hover:text-red-600"
+                      onClick={() => handleDelete(post.id)}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
                   </div>
                 </TableCell>
               </TableRow>

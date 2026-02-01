@@ -1,0 +1,28 @@
+{
+  "categories": [
+    {
+      "id": "tutorials",
+      "label": "Tutoriais",
+      "color": "#3B82F6",
+      "description": "Guias e tutoriais passo a passo"
+    },
+    {
+      "id": "news",
+      "label": "Notícias",
+      "color": "#10B981",
+      "description": "Novidades e atualizações"
+    },
+    {
+      "id": "insights",
+      "label": "Insights",
+      "color": "#8B5CF6",
+      "description": "Análises e opiniões"
+    },
+    {
+      "id": "case-studies",
+      "label": "Case Studies",
+      "color": "#F59E0B",
+      "description": "Estudos de caso detalhados"
+    }
+  ]
+}

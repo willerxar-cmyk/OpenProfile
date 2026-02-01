@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useProjects } from '@/hooks/useProjects';
 import { useI18n } from '@/contexts/I18nContext';
 import { Button } from '@/components/ui/button';
@@ -16,10 +17,13 @@ import { Badge } from '@/components/ui/badge';
 import { Plus, Pencil, Trash2, Eye, EyeOff, Star } from 'lucide-react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { CategoryModal } from '@/components/CategoryModal';
+import portfolioCategoriesData from '@/data/portfolio-categories.json';
 
 export default function AdminProjectsPage() {
   const { projects, isLoading, deleteProject, updateProject } = useProjects();
   const { t } = useI18n();
+  const [categories, setCategories] = useState(portfolioCategoriesData.categories);
 
   const handleTogglePublished = (id: string, current: boolean) => {
     updateProject(id, { published: !current });
@@ -36,12 +40,19 @@ export default function AdminProjectsPage() {
           <h1 className="text-3xl font-bold">{t('admin.projects')}</h1>
           <p className="text-muted-foreground mt-1">Manage your portfolio projects</p>
         </div>
-        <Link href="/admin/projects/new">
-          <Button className="gap-2">
-            <Plus className="w-4 h-4" />
-            {t('admin.addNew')}
-          </Button>
-        </Link>
+        <div className="flex items-center gap-2">
+          <CategoryModal 
+            type="portfolio" 
+            categories={categories} 
+            onCategoriesChange={setCategories} 
+          />
+          <Link href="/admin/projects/new">
+            <Button className="gap-2">
+              <Plus className="w-4 h-4" />
+              {t('admin.addNew')}
+            </Button>
+          </Link>
+        </div>
       </div>
 
       <Card>

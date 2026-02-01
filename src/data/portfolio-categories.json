@@ -1,0 +1,28 @@
+{
+  "categories": [
+    {
+      "id": "design",
+      "label": "Design",
+      "color": "#8B5CF6",
+      "description": "UI/UX, Branding, Ilustração"
+    },
+    {
+      "id": "development",
+      "label": "Desenvolvimento",
+      "color": "#10B981",
+      "description": "Frontend, Backend, Mobile"
+    },
+    {
+      "id": "three-d",
+      "label": "3D",
+      "color": "#F59E0B",
+      "description": "Modelagem, Animação, Renderização"
+    },
+    {
+      "id": "creative",
+      "label": "Criativo",
+      "color": "#EC4899",
+      "description": "Fotografia, Vídeo, Arte"
+    }
+  ]
+}

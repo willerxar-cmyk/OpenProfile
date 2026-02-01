@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { Page, PageStatus } from '@/types';
-import { readJson, writeJson, generateId, now, sortBy } from '@/lib/json-db';
 
 export function usePages() {
   const [pages, setPages] = useState<Page[]>([]);
@@ -10,7 +9,9 @@ export function usePages() {
 
   const loadPages = useCallback(async () => {
     try {
-      const data = await readJson<Page[]>('pages.json', []);
+      setIsLoading(true);
+      const response = await fetch('/api/pages');
+      const data = await response.json();
       setPages(data);
     } catch (error) {
       console.error('Failed to load pages:', error);
@@ -23,51 +24,57 @@ export function usePages() {
     loadPages();
   }, [loadPages]);
 
-  const savePages = useCallback(async (updatedPages: Page[]) => {
-    await writeJson('pages.json', updatedPages);
-    setPages(updatedPages);
+  const addPage = useCallback(async (page: Omit<Page, 'id' | 'createdAt' | 'updatedAt'>) => {
+    try {
+      const response = await fetch('/api/pages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(page),
+      });
+      
+      if (!response.ok) throw new Error('Failed to create page');
+      
+      const newPage = await response.json();
+      setPages(prev => [...prev, newPage]);
+      return newPage;
+    } catch (error) {
+      console.error('Failed to add page:', error);
+      throw error;
+    }
   }, []);
 
-  const addPage = useCallback(async (page: Omit<Page, 'id' | 'createdAt' | 'updatedAt'>) => {
-    const nowStr = now();
-    const newPage: Page = {
-      ...page,
-      id: generateId(),
-      createdAt: nowStr,
-      updatedAt: nowStr,
-    };
-    
-    const updated = [...pages, newPage];
-    await savePages(updated);
-    return newPage;
-  }, [pages, savePages]);
-
   const updatePage = useCallback(async (id: string, updates: Partial<Page>) => {
-    const nowStr = now();
-    const updated = pages.map(p => 
-      p.id === id ? { ...p, ...updates, updatedAt: nowStr } : p
-    );
-    await savePages(updated);
-  }, [pages, savePages]);
+    try {
+      const response = await fetch(`/api/pages/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updates),
+      });
+      
+      if (!response.ok) throw new Error('Failed to update page');
+      
+      const updated = await response.json();
+      setPages(prev => prev.map(p => p.id === id ? updated : p));
+    } catch (error) {
+      console.error('Failed to update page:', error);
+      throw error;
+    }
+  }, []);
 
   const deletePage = useCallback(async (id: string) => {
-    const updated = pages.filter(p => p.id !== id);
-    await savePages(updated);
-  }, [pages, savePages]);
-
-  const publishPage = useCallback(async (id: string) => {
-    const nowStr = now();
-    const updated = pages.map(p => 
-      p.id === id ? { 
-        ...p, 
-        status: 'published' as PageStatus, 
-        published: true, 
-        publishedAt: nowStr,
-        updatedAt: nowStr 
-      } : p
-    );
-    await savePages(updated);
-  }, [pages, savePages]);
+    try {
+      const response = await fetch(`/api/pages/${id}`, {
+        method: 'DELETE',
+      });
+      
+      if (!response.ok) throw new Error('Failed to delete page');
+      
+      setPages(prev => prev.filter(p => p.id !== id));
+    } catch (error) {
+      console.error('Failed to delete page:', error);
+      throw error;
+    }
+  }, []);
 
   const getPageById = useCallback((id: string) => {
     return pages.find(p => p.id === id);
@@ -95,7 +102,6 @@ export function usePages() {
     addPage,
     updatePage,
     deletePage,
-    publishPage,
     getPageById,
     getPageBySlug,
     getPublishedPages,
