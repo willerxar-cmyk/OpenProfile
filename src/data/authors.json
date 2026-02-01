@@ -1,0 +1,22 @@
+[
+  {
+    "id": "author-1",
+    "name": "Your Name",
+    "email": "your.email@example.com",
+    "bio": {
+      "pt": "Desenvolvedor full-stack, designer UI/UX e artista 3D apaixonado por criar experiências digitais incríveis.",
+      "en": "Full-stack developer, UI/UX designer, and 3D artist passionate about creating amazing digital experiences.",
+      "es": "Desarrollador full-stack, diseñador UI/UX y artista 3D apasionado por crear experiencias digitales increíbles."
+    },
+    "avatar": "/images/avatar.jpg",
+    "social": {
+      "twitter": "https://twitter.com/yourhandle",
+      "linkedin": "https://linkedin.com/in/yourprofile",
+      "github": "https://github.com/yourhandle",
+      "website": "https://yourwebsite.com"
+    },
+    "role": "admin",
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z"
+  }
+]

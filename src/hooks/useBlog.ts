@@ -1,121 +1,137 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { BlogPost, Locale } from '@/types';
+import { BlogPost, Locale, PostStatus, Author, Tag } from '@/types';
+import { readJson, writeJson, generateId, generateSlug, now, createIndex, findById, findAll, paginate, sortBy } from '@/lib/json-db';
 
-const STORAGE_KEY = 'portfolio_blog';
-
-// Default blog data
-const defaultPosts: BlogPost[] = [
-  {
-    id: '1',
-    slug: 'getting-started-with-nextjs-16',
-    published: true,
-    featured: true,
-    createdAt: '2026-01-15T10:00:00Z',
-    updatedAt: '2026-01-15T10:00:00Z',
-    category: 'development',
-    subcategory: 'frontend',
-    tags: ['Next.js', 'React', 'Tutorial'],
-    author: 'Admin',
-    imageUrl: '/images/blog/nextjs-16.jpg',
-    translations: {
-      en: {
-        title: 'Getting Started with Next.js 16: What\'s New',
-        excerpt: 'Explore the latest features of Next.js 16 including Proxy, Cache Components, and improved authentication patterns.',
-        content: '# Getting Started with Next.js 16\n\nNext.js 16 brings significant improvements...',
-      },
-      pt: {
-        title: 'Começando com Next.js 16: O Que Há de Novo',
-        excerpt: 'Explore as últimas funcionalidades do Next.js 16...',
-        content: '# Começando com Next.js 16\n\nO Next.js 16 traz melhorias significativas...',
-      },
-      es: {
-        title: 'Empezando con Next.js 16: Novedades',
-        excerpt: 'Explore las últimas funcionalidades de Next.js 16...',
-        content: '# Empezando con Next.js 16\n\nNext.js 16 trae mejoras significativas...',
-      },
-    },
-  },
-];
+const BLOG_STORAGE_KEY = 'portfolio_blog';
+const AUTHORS_STORAGE_KEY = 'portfolio_authors';
+const TAGS_STORAGE_KEY = 'portfolio_tags';
 
 export function useBlog() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [authors, setAuthors] = useState<Author[]>([]);
+  const [tags, setTags] = useState<Tag[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const loadPosts = useCallback(() => {
-    if (typeof window === 'undefined') return;
-    
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      setPosts(JSON.parse(stored));
-    } else {
-      // Load default data
-      fetch('/data/blog.json')
-        .then(res => res.json())
-        .then(data => {
-          setPosts(data);
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-        })
-        .catch(() => {
-          setPosts(defaultPosts);
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultPosts));
-        });
+  // Load data from JSON files
+  const loadData = useCallback(async () => {
+    try {
+      const [postsData, authorsData, tagsData] = await Promise.all([
+        readJson<BlogPost[]>('blog.json', []),
+        readJson<Author[]>('authors.json', []),
+        readJson<Tag[]>('tags.json', []),
+      ]);
+
+      setPosts(postsData);
+      setAuthors(authorsData);
+      setTags(tagsData);
+
+      // Create indexes for efficient searching
+      createIndex('posts', postsData);
+    } catch (error) {
+      console.error('Failed to load blog data:', error);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }, []);
 
   useEffect(() => {
-    loadPosts();
-  }, [loadPosts]);
+    loadData();
+  }, [loadData]);
 
-  const addPost = useCallback((post: Omit<BlogPost, 'id' | 'createdAt' | 'updatedAt'>) => {
-    const now = new Date().toISOString();
+  // Save posts to JSON
+  const savePosts = useCallback(async (updatedPosts: BlogPost[]) => {
+    await writeJson('blog.json', updatedPosts);
+    setPosts(updatedPosts);
+    createIndex('posts', updatedPosts);
+  }, []);
+
+  const addPost = useCallback(async (post: Omit<BlogPost, 'id' | 'createdAt' | 'updatedAt'>) => {
+    const nowStr = now();
     const newPost: BlogPost = {
       ...post,
-      id: Date.now().toString(),
-      createdAt: now,
-      updatedAt: now,
+      id: generateId(),
+      createdAt: nowStr,
+      updatedAt: nowStr,
     };
     
     const updated = [newPost, ...posts];
-    setPosts(updated);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    await savePosts(updated);
     return newPost;
-  }, [posts]);
+  }, [posts, savePosts]);
 
-  const updatePost = useCallback((id: string, updates: Partial<BlogPost>) => {
-    const now = new Date().toISOString();
+  const updatePost = useCallback(async (id: string, updates: Partial<BlogPost>) => {
+    const nowStr = now();
     const updated = posts.map(p => 
-      p.id === id ? { ...p, ...updates, updatedAt: now } : p
+      p.id === id ? { ...p, ...updates, updatedAt: nowStr } : p
     );
-    setPosts(updated);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-  }, [posts]);
+    await savePosts(updated);
+  }, [posts, savePosts]);
 
-  const deletePost = useCallback((id: string) => {
+  const deletePost = useCallback(async (id: string) => {
     const updated = posts.filter(p => p.id !== id);
-    setPosts(updated);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-  }, [posts]);
+    await savePosts(updated);
+  }, [posts, savePosts]);
+
+  const publishPost = useCallback(async (id: string) => {
+    const nowStr = now();
+    const updated = posts.map(p => 
+      p.id === id ? { 
+        ...p, 
+        status: 'published' as PostStatus, 
+        published: true, 
+        publishedAt: nowStr,
+        updatedAt: nowStr 
+      } : p
+    );
+    await savePosts(updated);
+  }, [posts, savePosts]);
+
+  const archivePost = useCallback(async (id: string) => {
+    const nowStr = now();
+    const updated = posts.map(p => 
+      p.id === id ? { 
+        ...p, 
+        status: 'archived' as PostStatus, 
+        published: false, 
+        updatedAt: nowStr 
+      } : p
+    );
+    await savePosts(updated);
+  }, [posts, savePosts]);
+
+  // Query methods
+  const getPostById = useCallback((id: string) => {
+    return findById<BlogPost>('posts', id);
+  }, []);
 
   const getPostBySlug = useCallback((slug: string) => {
     return posts.find(p => p.slug === slug && p.published);
   }, [posts]);
 
-  const getPostsByCategory = useCallback((category: string, locale: Locale = 'en') => {
+  const getPostsByStatus = useCallback((status: PostStatus) => {
+    return posts.filter(p => p.status === status);
+  }, [posts]);
+
+  const getPostsByCategory = useCallback((category: string) => {
     return posts.filter(p => p.category === category && p.published);
   }, [posts]);
 
-  const getFeaturedPosts = useCallback((locale: Locale = 'en') => {
+  const getPostsByTag = useCallback((tagSlug: string) => {
+    return posts.filter(p => p.tags.includes(tagSlug) && p.published);
+  }, [posts]);
+
+  const getPostsByAuthor = useCallback((authorId: string) => {
+    return posts.filter(p => p.authorId === authorId && p.published);
+  }, [posts]);
+
+  const getFeaturedPosts = useCallback(() => {
     return posts.filter(p => p.featured && p.published);
   }, [posts]);
 
-  const getRecentPosts = useCallback((limit: number = 5, locale: Locale = 'en') => {
-    return posts
-      .filter(p => p.published)
-      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-      .slice(0, limit);
+  const getRecentPosts = useCallback((limit: number = 5) => {
+    return sortBy(posts.filter(p => p.published), 'createdAt', 'desc').slice(0, limit);
   }, [posts]);
 
   const getRelatedPosts = useCallback((currentPostId: string, limit: number = 3) => {
@@ -126,7 +142,8 @@ export function useBlog() {
       .filter(p => 
         p.id !== currentPostId && 
         p.published &&
-        (p.category === currentPost.category ||         p.tags.some((tag: string) => currentPost.tags.includes(tag)))
+        (p.category === currentPost.category || 
+         p.tags.some(tag => currentPost.tags.includes(tag)))
       )
       .slice(0, limit);
   }, [posts]);
@@ -145,46 +162,83 @@ export function useBlog() {
     });
   }, [posts]);
 
-  const generateSlug = useCallback((title: string) => {
-    return title
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/(^-|-$)/g, '');
-  }, []);
-
-  const exportPosts = useCallback(() => {
-    return JSON.stringify(posts, null, 2);
+  // Pagination
+  const getPaginatedPosts = useCallback((page: number, pageSize: number) => {
+    const published = posts.filter(p => p.published);
+    return paginate(sortBy(published, 'createdAt', 'desc'), page, pageSize);
   }, [posts]);
 
-  const importPosts = useCallback((jsonString: string) => {
-    try {
-      const parsed = JSON.parse(jsonString);
-      if (Array.isArray(parsed)) {
-        setPosts(parsed);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed));
-        return true;
-      }
-      return false;
-    } catch {
-      return false;
-    }
+  // Author methods
+  const getAuthorById = useCallback((id: string) => {
+    return authors.find(a => a.id === id);
+  }, [authors]);
+
+  // Tag methods
+  const getTagBySlug = useCallback((slug: string) => {
+    return tags.find(t => t.slug === slug);
+  }, [tags]);
+
+  const getAllTags = useCallback(() => {
+    return tags;
+  }, [tags]);
+
+  // Stats
+  const getStats = useCallback(() => {
+    return {
+      total: posts.length,
+      published: posts.filter(p => p.published).length,
+      drafts: posts.filter(p => p.status === 'draft').length,
+      archived: posts.filter(p => p.status === 'archived').length,
+      featured: posts.filter(p => p.featured).length,
+    };
+  }, [posts]);
+
+  // Utility methods
+  const createSlug = useCallback((title: string) => {
+    return generateSlug(title);
   }, []);
 
+  const refresh = useCallback(() => {
+    return loadData();
+  }, [loadData]);
+
   return {
+    // Data
     posts,
+    authors,
+    tags,
     isLoading,
+    
+    // CRUD
     addPost,
     updatePost,
     deletePost,
+    publishPost,
+    archivePost,
+    
+    // Queries
+    getPostById,
     getPostBySlug,
+    getPostsByStatus,
     getPostsByCategory,
+    getPostsByTag,
+    getPostsByAuthor,
     getFeaturedPosts,
     getRecentPosts,
     getRelatedPosts,
     searchPosts,
-    generateSlug,
-    exportPosts,
-    importPosts,
-    refresh: loadPosts,
+    getPaginatedPosts,
+    
+    // Related data
+    getAuthorById,
+    getTagBySlug,
+    getAllTags,
+    
+    // Stats
+    getStats,
+    
+    // Utils
+    createSlug,
+    refresh,
   };
 }

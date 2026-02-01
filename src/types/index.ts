@@ -86,18 +86,51 @@ export interface BlogPostTranslation {
 export interface BlogPost {
   id: string;
   slug: string;
+  status: 'draft' | 'published' | 'archived';
   published: boolean;
   featured: boolean;
   createdAt: string;
   updatedAt: string;
+  publishedAt?: string;
   category: string;
   subcategory: string;
   tags: string[];
-  author: string;
+  authorId: string;
   imageUrl?: string;
+  gallery?: string[];
+  metaTitle?: Translations;
+  metaDescription?: Translations;
   translations: {
     en: BlogPostTranslation;
     pt: BlogPostTranslation;
     es: BlogPostTranslation;
   };
 }
+
+export interface Author {
+  id: string;
+  name: string;
+  email: string;
+  bio: Translations;
+  avatar: string;
+  social: {
+    twitter?: string;
+    linkedin?: string;
+    github?: string;
+    website?: string;
+  };
+  role: 'admin' | 'editor' | 'contributor';
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Tag {
+  id: string;
+  name: string;
+  slug: string;
+  description: Translations;
+  color: string;
+  postCount?: number;
+}
+
+export type PostStatus = 'draft' | 'published' | 'archived';

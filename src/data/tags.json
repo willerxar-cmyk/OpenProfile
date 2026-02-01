@@ -1,0 +1,112 @@
+[
+  {
+    "id": "tag-1",
+    "name": "Next.js",
+    "slug": "nextjs",
+    "description": {
+      "pt": "Framework React para aplicações modernas",
+      "en": "React framework for modern applications",
+      "es": "Framework React para aplicaciones modernas"
+    },
+    "color": "#000000"
+  },
+  {
+    "id": "tag-2",
+    "name": "React",
+    "slug": "react",
+    "description": {
+      "pt": "Biblioteca JavaScript para interfaces",
+      "en": "JavaScript library for user interfaces",
+      "es": "Biblioteca JavaScript para interfaces"
+    },
+    "color": "#61DAFB"
+  },
+  {
+    "id": "tag-3",
+    "name": "TypeScript",
+    "slug": "typescript",
+    "description": {
+      "pt": "Superset tipado de JavaScript",
+      "en": "Typed superset of JavaScript",
+      "es": "Superset tipado de JavaScript"
+    },
+    "color": "#3178C6"
+  },
+  {
+    "id": "tag-4",
+    "name": "Tailwind CSS",
+    "slug": "tailwind-css",
+    "description": {
+      "pt": "Framework CSS utilitário",
+      "en": "Utility-first CSS framework",
+      "es": "Framework CSS utilitario"
+    },
+    "color": "#06B6D4"
+  },
+  {
+    "id": "tag-5",
+    "name": "UI/UX Design",
+    "slug": "ui-ux-design",
+    "description": {
+      "pt": "Design de interfaces e experiência do usuário",
+      "en": "User interface and user experience design",
+      "es": "Diseño de interfaces y experiencia de usuario"
+    },
+    "color": "#FF6B6B"
+  },
+  {
+    "id": "tag-6",
+    "name": "3D Modeling",
+    "slug": "3d-modeling",
+    "description": {
+      "pt": "Modelagem tridimensional",
+      "en": "Three-dimensional modeling",
+      "es": "Modelado tridimensional"
+    },
+    "color": "#9B59B6"
+  },
+  {
+    "id": "tag-7",
+    "name": "Performance",
+    "slug": "performance",
+    "description": {
+      "pt": "Otimização e performance web",
+      "en": "Web optimization and performance",
+      "es": "Optimización y rendimiento web"
+    },
+    "color": "#27AE60"
+  },
+  {
+    "id": "tag-8",
+    "name": "SEO",
+    "slug": "seo",
+    "description": {
+      "pt": "Otimização para motores de busca",
+      "en": "Search engine optimization",
+      "es": "Optimización para motores de búsqueda"
+    },
+    "color": "#F39C12"
+  },
+  {
+    "id": "tag-9",
+    "name": "Tutorial",
+    "slug": "tutorial",
+    "description": {
+      "pt": "Tutoriais e guias passo a passo",
+      "en": "Tutorials and step-by-step guides",
+      "es": "Tutoriales y guías paso a paso"
+    },
+    "color": "#E74C3C"
+  },
+  {
+    "id": "tag-10",
+    "name": "Best Practices",
+    "slug": "best-practices",
+    "description": {
+      "pt": "Melhores práticas de desenvolvimento",
+      "en": "Development best practices",
+      "es": "Mejores prácticas de desarrollo"
+    },
+    "color": "#3498DB"
+  }
+]

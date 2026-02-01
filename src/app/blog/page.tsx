@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { Search, Calendar, ArrowRight, Star } from 'lucide-react';
 import { useState } from 'react';
 import Image from 'next/image';
+import { BlogPost, Locale } from '@/types';
 
 export default function BlogPage() {
   const { posts, isLoading, getFeaturedPosts } = useBlog();
@@ -18,7 +19,7 @@ export default function BlogPage() {
   const [searchQuery, setSearchQuery] = useState('');
 
   const publishedPosts = posts.filter(p => p.published);
-  const featuredPosts = getFeaturedPosts(locale);
+  const featuredPosts = getFeaturedPosts();
   
   const filteredPosts = searchQuery 
     ? publishedPosts.filter(post => 
@@ -106,7 +107,7 @@ export default function BlogPage() {
   );
 }
 
-function FeaturedPostCard({ post, locale, index }: { post: any, locale: string, index: number }) {
+function FeaturedPostCard({ post, locale, index }: { post: BlogPost, locale: Locale, index: number }) {
   const translation = post.translations[locale];
   
   return (
@@ -154,7 +155,7 @@ function FeaturedPostCard({ post, locale, index }: { post: any, locale: string, 
   );
 }
 
-function PostCard({ post, locale, index }: { post: any, locale: string, index: number }) {
+function PostCard({ post, locale, index }: { post: BlogPost, locale: Locale, index: number }) {
   const translation = post.translations[locale];
   
   return (

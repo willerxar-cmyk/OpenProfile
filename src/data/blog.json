@@ -2,13 +2,27 @@
   {
     "id": "1",
     "slug": "getting-started-with-nextjs-16",
+    "status": "published",
     "published": true,
     "featured": true,
     "createdAt": "2026-01-15T10:00:00Z",
     "updatedAt": "2026-01-15T10:00:00Z",
+    "publishedAt": "2026-01-15T10:00:00Z",
     "category": "development",
     "subcategory": "frontend",
-    "tags": ["Next.js", "React", "Tutorial"],
+    "tags": ["nextjs", "react", "tutorial"],
+    "authorId": "author-1",
+    "imageUrl": "/uploads/blog/nextjs-16.jpg",
+    "metaTitle": {
+      "pt": "Começando com Next.js 16: O Que Há de Novo",
+      "en": "Getting Started with Next.js 16: What's New",
+      "es": "Empezando con Next.js 16: Novedades"
+    },
+    "metaDescription": {
+      "pt": "Explore as últimas funcionalidades do Next.js 16 incluindo Proxy, Cache Components e padrões de autenticação melhorados.",
+      "en": "Explore the latest features of Next.js 16 including Proxy, Cache Components, and improved authentication patterns.",
+      "es": "Explore las últimas funcionalidades de Next.js 16 incluyendo Proxy, Cache Components y patrones de autenticación mejorados."
+    },
     "translations": {
       "en": {
         "title": "Getting Started with Next.js 16: What's New",
@@ -30,13 +44,27 @@
   {
     "id": "2",
     "slug": "design-trends-2026",
+    "status": "published",
     "published": true,
     "featured": true,
     "createdAt": "2026-01-10T14:30:00Z",
     "updatedAt": "2026-01-12T09:15:00Z",
+    "publishedAt": "2026-01-10T14:30:00Z",
     "category": "design",
     "subcategory": "ui-ux",
-    "tags": ["Design", "UI/UX", "Trends"],
+    "tags": ["ui-ux-design", "best-practices"],
+    "authorId": "author-1",
+    "imageUrl": "/uploads/blog/design-trends-2026.jpg",
+    "metaTitle": {
+      "pt": "Tendências de Design para 2026: O Que Esperar",
+      "en": "Design Trends for 2026: What to Expect",
+      "es": "Tendencias de Diseño para 2026: Qué Esperar"
+    },
+    "metaDescription": {
+      "pt": "Descubra as tendências de design de ponta que moldarão o cenário digital em 2026.",
+      "en": "Discover the cutting-edge design trends that will shape the digital landscape in 2026.",
+      "es": "Descubre las tendencias de diseño de vanguardia que darán forma al panorama digital en 2026."
+    },
     "translations": {
       "en": {
         "title": "Design Trends for 2026: What to Expect",
@@ -58,13 +86,27 @@
   {
     "id": "3",
     "slug": "building-portfolio-with-json",
+    "status": "published",
     "published": true,
     "featured": false,
     "createdAt": "2026-01-05T08:00:00Z",
     "updatedAt": "2026-01-05T08:00:00Z",
+    "publishedAt": "2026-01-05T08:00:00Z",
     "category": "development",
     "subcategory": "fullstack",
-    "tags": ["Portfolio", "JSON", "Tutorial"],
+    "tags": ["tutorial", "best-practices"],
+    "authorId": "author-1",
+    "imageUrl": "/uploads/blog/portfolio-json.jpg",
+    "metaTitle": {
+      "pt": "Construindo um Portfólio com JSON: Guia Completo",
+      "en": "Building a Portfolio with JSON: A Complete Guide",
+      "es": "Construyendo un Portafolio con JSON: Guía Completa"
+    },
+    "metaDescription": {
+      "pt": "Aprenda a criar um site de portfólio poderoso usando JSON como banco de dados com Next.js 16.",
+      "en": "Learn how to create a powerful portfolio website using JSON as your database with Next.js 16.",
+      "es": "Aprende a crear un sitio de portafolio poderoso usando JSON como base de datos con Next.js 16."
+    },
     "translations": {
       "en": {
         "title": "Building a Portfolio with JSON: A Complete Guide",

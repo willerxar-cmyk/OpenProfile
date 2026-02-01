@@ -22,3 +22,18 @@ export const curriculum = pgTable('curriculum', {
   type: text('type').notNull(), // "work", "education", "skill"
   createdAt: timestamp('created_at').defaultNow(),
 });
+
+export const blogPosts = pgTable('blog_posts', {
+  id: serial('id').primaryKey(),
+  slug: text('slug').notNull(),
+  title: text('title').notNull(),
+  excerpt: text('excerpt'),
+  content: text('content').notNull(),
+  imageUrl: text('image_url'),
+  category: text('category').default('general'),
+  tags: json('tags').$type<string[]>().default([]),
+  featured: boolean('featured').default(false),
+  published: boolean('published').default(false),
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow(),
+});

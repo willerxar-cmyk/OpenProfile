@@ -5,20 +5,23 @@ import { useI18n } from '@/contexts/I18nContext';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowLeft, Calendar, Clock, Share2, Twitter, Linkedin, Facebook } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
+import { BlogPost } from '@/types';
 
 export default function BlogPostPage() {
   const { slug } = useParams();
-  const { getPostBySlug, getRelatedPosts } = useBlog();
+  const { getPostBySlug, getRelatedPosts, getAuthorById } = useBlog();
   const { t, locale } = useI18n();
 
   const post = getPostBySlug(slug as string);
   const relatedPosts = post ? getRelatedPosts(post.id) : [];
+  const author = post ? getAuthorById(post.authorId) : null;
 
   if (!post) {
     return (
@@ -134,17 +137,25 @@ export default function BlogPostPage() {
         </div>
 
         {/* Author */}
-        <div className="mt-12 p-6 bg-muted rounded-xl">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center text-white font-bold">
-              {post.author.charAt(0)}
+        {author && (
+          <div className="mt-12 p-6 bg-muted rounded-xl">
+            <div className="flex items-center gap-4">
+              <Avatar className="w-12 h-12">
+                <AvatarImage src={author.avatar} alt={author.name} />
+                <AvatarFallback className="bg-gradient-to-br from-primary to-purple-600 text-white">
+                  {author.name.charAt(0)}
+                </AvatarFallback>
+              </Avatar>
+              <div>
+                <p className="font-semibold">{author.name}</p>
+                <p className="text-sm text-muted-foreground">{t('blog.author') || 'Autor'}</p>
+              </div>
             </div>
-            <div>
-              <p className="font-semibold">{post.author}</p>
-              <p className="text-sm text-muted-foreground">Author</p>
-            </div>
+            {author.bio[locale] && (
+              <p className="mt-3 text-sm text-muted-foreground">{String(author.bio[locale])}</p>
+            )}
           </div>
-        </div>
+        )}
       </motion.div>
 
       {/* Related Posts */}
@@ -157,7 +168,7 @@ export default function BlogPostPage() {
         >
           <h2 className="text-2xl font-bold mb-6">Related Posts</h2>
           <div className="space-y-4">
-            {relatedPosts.map((relatedPost: any) => (
+            {relatedPosts.map((relatedPost: BlogPost) => (
               <Link key={relatedPost.id} href={`/blog/${relatedPost.slug}`}>
                 <Card className="hover:shadow-md transition-shadow">
                   <CardContent className="p-4">

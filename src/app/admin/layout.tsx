@@ -5,7 +5,7 @@ import { LayoutDashboard, FolderKanban, GraduationCap, LogOut, Settings, Tags, U
 import { getSession } from '@/lib/session';
 import { logout } from './actions';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
-import NavLink from './NavLink';
+import AdminNav from './AdminNav';
 
 // Server Component - runs on server with Node.js
 // More secure than client-side auth checks
@@ -21,14 +21,6 @@ export default async function AdminLayout({
   if (!session) {
     redirect('/login');
   }
-
-  const navItems = [
-    { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
-    { href: '/admin/projects', label: 'Projects', icon: FolderKanban },
-    { href: '/admin/blog', label: 'Blog', icon: FileText },
-    { href: '/admin/curriculum', label: 'Curriculum', icon: GraduationCap },
-    { href: '/admin/categories', label: 'Categories', icon: Tags },
-  ];
 
   return (
     <div className="flex min-h-screen flex-col md:flex-row md:overflow-hidden">
@@ -50,16 +42,7 @@ export default async function AdminLayout({
           </Link>
 
           {/* Navigation */}
-          <nav className="flex-1 space-y-1">
-            {navItems.map((item) => (
-              <NavLink 
-                key={item.href} 
-                href={item.href} 
-                label={item.label}
-                icon={item.icon} 
-              />
-            ))}
-          </nav>
+          <AdminNav />
 
           {/* Footer */}
           <div className="pt-4 border-t space-y-2">
