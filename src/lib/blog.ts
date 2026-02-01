@@ -1,4 +1,4 @@
-import { readJson, createIndex, findAll, findById, sortBy } from '@/lib/json-db'
+import { readJson, sortBy } from '@/lib/json-db'
 import { BlogPost } from '@/types'
 
 export type BlogPostRow = BlogPost

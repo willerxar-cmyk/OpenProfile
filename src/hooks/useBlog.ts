@@ -2,11 +2,6 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { BlogPost, Locale, PostStatus, Author, Tag } from '@/types';
-import { readJson, writeJson, generateId, generateSlug, now, createIndex, findById, findAll, paginate, sortBy } from '@/lib/json-db';
-
-const BLOG_STORAGE_KEY = 'portfolio_blog';
-const AUTHORS_STORAGE_KEY = 'portfolio_authors';
-const TAGS_STORAGE_KEY = 'portfolio_tags';
 
 export function useBlog() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -14,21 +9,25 @@ export function useBlog() {
   const [tags, setTags] = useState<Tag[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load data from JSON files
+  // Load data from API
   const loadData = useCallback(async () => {
     try {
+      setIsLoading(true);
+      const [postsRes, authorsRes, tagsRes] = await Promise.all([
+        fetch('/api/blog'),
+        fetch('/api/authors'),
+        fetch('/api/tags'),
+      ]);
+
       const [postsData, authorsData, tagsData] = await Promise.all([
-        readJson<BlogPost[]>('blog.json', []),
-        readJson<Author[]>('authors.json', []),
-        readJson<Tag[]>('tags.json', []),
+        postsRes.json(),
+        authorsRes.json(),
+        tagsRes.json(),
       ]);
 
       setPosts(postsData);
       setAuthors(authorsData);
       setTags(tagsData);
-
-      // Create indexes for efficient searching
-      createIndex('posts', postsData);
     } catch (error) {
       console.error('Failed to load blog data:', error);
     } finally {
@@ -40,71 +39,82 @@ export function useBlog() {
     loadData();
   }, [loadData]);
 
-  // Save posts to JSON
-  const savePosts = useCallback(async (updatedPosts: BlogPost[]) => {
-    await writeJson('blog.json', updatedPosts);
-    setPosts(updatedPosts);
-    createIndex('posts', updatedPosts);
-  }, []);
-
+  // Add post via API
   const addPost = useCallback(async (post: Omit<BlogPost, 'id' | 'createdAt' | 'updatedAt'>) => {
-    const nowStr = now();
-    const newPost: BlogPost = {
-      ...post,
-      id: generateId(),
-      createdAt: nowStr,
-      updatedAt: nowStr,
-    };
-    
-    const updated = [newPost, ...posts];
-    await savePosts(updated);
-    return newPost;
-  }, [posts, savePosts]);
-
-  const updatePost = useCallback(async (id: string, updates: Partial<BlogPost>) => {
-    const nowStr = now();
-    const updated = posts.map(p => 
-      p.id === id ? { ...p, ...updates, updatedAt: nowStr } : p
-    );
-    await savePosts(updated);
-  }, [posts, savePosts]);
-
-  const deletePost = useCallback(async (id: string) => {
-    const updated = posts.filter(p => p.id !== id);
-    await savePosts(updated);
-  }, [posts, savePosts]);
-
-  const publishPost = useCallback(async (id: string) => {
-    const nowStr = now();
-    const updated = posts.map(p => 
-      p.id === id ? { 
-        ...p, 
-        status: 'published' as PostStatus, 
-        published: true, 
-        publishedAt: nowStr,
-        updatedAt: nowStr 
-      } : p
-    );
-    await savePosts(updated);
-  }, [posts, savePosts]);
-
-  const archivePost = useCallback(async (id: string) => {
-    const nowStr = now();
-    const updated = posts.map(p => 
-      p.id === id ? { 
-        ...p, 
-        status: 'archived' as PostStatus, 
-        published: false, 
-        updatedAt: nowStr 
-      } : p
-    );
-    await savePosts(updated);
-  }, [posts, savePosts]);
-
-  // Query methods
-  const getPostById = useCallback((id: string) => {
-    return findById<BlogPost>('posts', id);
+    try {
+      const response = await fetch('/api/blog', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(post),
+      });
+      
+      if (!response.ok) throw new Error('Failed to create post');
+      
+      const newPost = await response.json();
+      setPosts(prev => [newPost, ...prev]);
+      return newPost;
+    } catch (error) {
+      console.error('Failed to add post:', error);
+      throw error;
+    }
   }, []);
+
+  // Update post via API
+  const updatePost = useCallback(async (id: string, updates: Partial<BlogPost>) => {
+    try {
+      const response = await fetch(`/api/blog/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updates),
+      });
+      
+      if (!response.ok) throw new Error('Failed to update post');
+      
+      const updated = await response.json();
+      setPosts(prev => prev.map(p => p.id === id ? updated : p));
+    } catch (error) {
+      console.error('Failed to update post:', error);
+      throw error;
+    }
+  }, []);
+
+  // Delete post via API
+  const deletePost = useCallback(async (id: string) => {
+    try {
+      const response = await fetch(`/api/blog/${id}`, {
+        method: 'DELETE',
+      });
+      
+      if (!response.ok) throw new Error('Failed to delete post');
+      
+      setPosts(prev => prev.filter(p => p.id !== id));
+    } catch (error) {
+      console.error('Failed to delete post:', error);
+      throw error;
+    }
+  }, []);
+
+  // Publish post
+  const publishPost = useCallback(async (id: string) => {
+    await updatePost(id, { 
+      status: 'published', 
+      published: true, 
+      publishedAt: new Date().toISOString() 
+    });
+  }, [updatePost]);
+
+  // Archive post
+  const archivePost = useCallback(async (id: string) => {
+    await updatePost(id, { 
+      status: 'archived', 
+      published: false 
+    });
+  }, [updatePost]);
+
+  // Query methods (client-side only)
+  const getPostById = useCallback((id: string) => {
+    return posts.find(p => p.id === id);
+  }, [posts]);
 
   const getPostBySlug = useCallback((slug: string) => {
     return posts.find(p => p.slug === slug && p.published);
@@ -131,7 +141,10 @@ export function useBlog() {
   }, [posts]);
 
   const getRecentPosts = useCallback((limit: number = 5) => {
-    return sortBy(posts.filter(p => p.published), 'createdAt', 'desc').slice(0, limit);
+    return posts
+      .filter(p => p.published)
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+      .slice(0, limit);
   }, [posts]);
 
   const getRelatedPosts = useCallback((currentPostId: string, limit: number = 3) => {
@@ -162,18 +175,25 @@ export function useBlog() {
     });
   }, [posts]);
 
-  // Pagination
   const getPaginatedPosts = useCallback((page: number, pageSize: number) => {
     const published = posts.filter(p => p.published);
-    return paginate(sortBy(published, 'createdAt', 'desc'), page, pageSize);
+    const sorted = published.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    const start = (page - 1) * pageSize;
+    const end = start + pageSize;
+    
+    return {
+      items: sorted.slice(start, end),
+      totalPages: Math.ceil(sorted.length / pageSize),
+      totalItems: sorted.length,
+      hasNext: page < Math.ceil(sorted.length / pageSize),
+      hasPrev: page > 1,
+    };
   }, [posts]);
 
-  // Author methods
   const getAuthorById = useCallback((id: string) => {
     return authors.find(a => a.id === id);
   }, [authors]);
 
-  // Tag methods
   const getTagBySlug = useCallback((slug: string) => {
     return tags.find(t => t.slug === slug);
   }, [tags]);
@@ -182,7 +202,6 @@ export function useBlog() {
     return tags;
   }, [tags]);
 
-  // Stats
   const getStats = useCallback(() => {
     return {
       total: posts.length,
@@ -193,9 +212,14 @@ export function useBlog() {
     };
   }, [posts]);
 
-  // Utility methods
   const createSlug = useCallback((title: string) => {
-    return generateSlug(title);
+    return title
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .substring(0, 100);
   }, []);
 
   const refresh = useCallback(() => {
@@ -203,20 +227,15 @@ export function useBlog() {
   }, [loadData]);
 
   return {
-    // Data
     posts,
     authors,
     tags,
     isLoading,
-    
-    // CRUD
     addPost,
     updatePost,
     deletePost,
     publishPost,
     archivePost,
-    
-    // Queries
     getPostById,
     getPostBySlug,
     getPostsByStatus,
@@ -228,16 +247,10 @@ export function useBlog() {
     getRelatedPosts,
     searchPosts,
     getPaginatedPosts,
-    
-    // Related data
     getAuthorById,
     getTagBySlug,
     getAllTags,
-    
-    // Stats
     getStats,
-    
-    // Utils
     createSlug,
     refresh,
   };

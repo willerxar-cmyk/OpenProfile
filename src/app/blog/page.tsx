@@ -30,7 +30,7 @@ export default function BlogPage() {
     : publishedPosts;
 
   return (
-    <div className="container py-12 space-y-12">
+    <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
       {/* Header */}
       <div className="text-center space-y-4 max-w-3xl mx-auto">
         <motion.h1 

@@ -37,7 +37,7 @@ export default function BlogPostPage() {
   const translation = post.translations[locale];
 
   return (
-    <article className="container py-12">
+    <article className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Back Button */}
       <motion.div
         initial={{ opacity: 0, x: -20 }}
