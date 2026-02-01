@@ -3,25 +3,20 @@
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
-import { LucideIcon } from 'lucide-react'
-
-interface NavItem {
-  href: string
-  label: string
-  icon: LucideIcon
-}
 
 interface NavLinkProps {
-  item: NavItem
+  href: string
+  label: string
+  icon: React.ReactNode
 }
 
-export default function NavLink({ item }: NavLinkProps) {
+export default function NavLink({ href, label, icon }: NavLinkProps) {
   const pathname = usePathname()
-  const isActive = pathname === item.href
+  const isActive = pathname === href
 
   return (
     <Link
-      href={item.href}
+      href={href}
       className={cn(
         'flex items-center gap-3 rounded-lg px-3 py-2 transition-all',
         isActive
@@ -29,8 +24,8 @@ export default function NavLink({ item }: NavLinkProps) {
           : 'text-muted-foreground hover:bg-muted hover:text-foreground'
       )}
     >
-      <item.icon className="h-4 w-4" />
-      <span>{item.label}</span>
+      {icon}
+      <span>{label}</span>
     </Link>
   )
 }

@@ -51,7 +51,12 @@ export default async function AdminLayout({
           {/* Navigation */}
           <nav className="flex-1 space-y-1">
             {navItems.map((item) => (
-              <NavLink key={item.href} item={item} />
+              <NavLink 
+                key={item.href} 
+                href={item.href} 
+                label={item.label}
+                icon={<item.icon className="w-5 h-5" />} 
+              />
             ))}
           </nav>
 
