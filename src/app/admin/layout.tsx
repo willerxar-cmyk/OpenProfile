@@ -70,8 +70,7 @@ export default async function AdminLayout({
       {/* Main Content */}
       <div className="flex-grow flex flex-col md:overflow-hidden">
         {/* Top Header */}
-        <header className="h-16 border-b bg-card px-6 flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Admin Dashboard</h2>
+        <header className="h-16 border-b bg-card px-6 flex items-center justify-end">
           <div className="flex items-center gap-2">
             <LanguageSwitcher />
             <Button variant="ghost" size="icon" className="relative">
