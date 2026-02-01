@@ -5,7 +5,8 @@
     "curriculum": "Currículum",
     "admin": "Admin",
     "login": "Iniciar Sesión",
-    "logout": "Cerrar Sesión"
+    "logout": "Cerrar Sesión",
+    "blog": "Blog"
   },
   "hero": {
     "available": "Disponible para contratos",
@@ -98,5 +99,22 @@
     "learnMore": "Saber Más",
     "getInTouch": "Contactar",
     "language": "Idioma"
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Ideas, tutoriales y pensamientos sobre diseño, desarrollo y creatividad",
+    "readMore": "Leer más",
+    "search": "Buscar artículos...",
+    "featured": "Destacado",
+    "allPosts": "Todos los Posts",
+    "published": "Publicados",
+    "drafts": "Borradores",
+    "newPost": "Nuevo Post",
+    "editPost": "Editar Post",
+    "minutesRead": "min de lectura",
+    "share": "Compartir",
+    "relatedPosts": "Posts Relacionados",
+    "backToBlog": "Volver al Blog",
+    "author": "Autor"
   }
 }

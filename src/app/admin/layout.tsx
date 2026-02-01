@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { LayoutDashboard, FolderKanban, GraduationCap, LogOut, Settings, Tags, User, Bell } from 'lucide-react';
+import { LayoutDashboard, FolderKanban, GraduationCap, LogOut, Settings, Tags, User, Bell, FileText } from 'lucide-react';
 import { getSession } from '@/lib/session';
 import { logout } from './actions';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
@@ -25,6 +25,7 @@ export default async function AdminLayout({
   const navItems = [
     { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/admin/projects', label: 'Projects', icon: FolderKanban },
+    { href: '/admin/blog', label: 'Blog', icon: FileText },
     { href: '/admin/curriculum', label: 'Curriculum', icon: GraduationCap },
     { href: '/admin/categories', label: 'Categories', icon: Tags },
   ];
@@ -55,7 +56,7 @@ export default async function AdminLayout({
                 key={item.href} 
                 href={item.href} 
                 label={item.label}
-                icon={<item.icon className="w-5 h-5" />} 
+                icon={item.icon} 
               />
             ))}
           </nav>

@@ -5,7 +5,8 @@
     "curriculum": "Currículo",
     "admin": "Admin",
     "login": "Entrar",
-    "logout": "Sair"
+    "logout": "Sair",
+    "blog": "Blog"
   },
   "hero": {
     "available": "Disponível para contratos",
@@ -98,5 +99,22 @@
     "learnMore": "Saiba Mais",
     "getInTouch": "Entre em Contato",
     "language": "Idioma"
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Insights, tutoriais e pensamentos sobre design, desenvolvimento e criatividade",
+    "readMore": "Ler mais",
+    "search": "Buscar artigos...",
+    "featured": "Destaque",
+    "allPosts": "Todos os Posts",
+    "published": "Publicados",
+    "drafts": "Rascunhos",
+    "newPost": "Novo Post",
+    "editPost": "Editar Post",
+    "minutesRead": "min de leitura",
+    "share": "Compartilhar",
+    "relatedPosts": "Posts Relacionados",
+    "backToBlog": "Voltar ao Blog",
+    "author": "Autor"
   }
 }

@@ -76,3 +76,28 @@ export type Locale = 'en' | 'pt' | 'es';
 export interface Translations {
   [key: string]: string | Translations;
 }
+
+export interface BlogPostTranslation {
+  title: string;
+  excerpt: string;
+  content: string;
+}
+
+export interface BlogPost {
+  id: string;
+  slug: string;
+  published: boolean;
+  featured: boolean;
+  createdAt: string;
+  updatedAt: string;
+  category: string;
+  subcategory: string;
+  tags: string[];
+  author: string;
+  imageUrl?: string;
+  translations: {
+    en: BlogPostTranslation;
+    pt: BlogPostTranslation;
+    es: BlogPostTranslation;
+  };
+}

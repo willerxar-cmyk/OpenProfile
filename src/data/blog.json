@@ -1,0 +1,86 @@
+[
+  {
+    "id": "1",
+    "slug": "getting-started-with-nextjs-16",
+    "published": true,
+    "featured": true,
+    "createdAt": "2026-01-15T10:00:00Z",
+    "updatedAt": "2026-01-15T10:00:00Z",
+    "category": "development",
+    "subcategory": "frontend",
+    "tags": ["Next.js", "React", "Tutorial"],
+    "translations": {
+      "en": {
+        "title": "Getting Started with Next.js 16: What's New",
+        "excerpt": "Explore the latest features of Next.js 16 including Proxy, Cache Components, and improved authentication patterns.",
+        "content": "# Getting Started with Next.js 16\n\nNext.js 16 brings significant improvements to the framework. In this article, we'll explore the key features that make development easier and more secure.\n\n## Proxy vs Middleware\n\nThe most notable change is the replacement of `middleware.ts` with `proxy.ts`. This change provides:\n\n- Better security with Node.js runtime\n- Clearer request interception patterns\n- Improved performance\n\n## Cache Components\n\nThe new caching model using Partial Pre-Rendering (PPR) allows for instant navigation while maintaining data freshness.\n\n## Authentication Patterns\n\nModern authentication in Next.js 16 should leverage Server Components and Server Actions rather than client-side state management.\n\nStay tuned for more tutorials!"
+      },
+      "pt": {
+        "title": "Começando com Next.js 16: O Que Há de Novo",
+        "excerpt": "Explore as últimas funcionalidades do Next.js 16 incluindo Proxy, Cache Components e padrões de autenticação melhorados.",
+        "content": "# Começando com Next.js 16\n\nO Next.js 16 traz melhorias significativas para o framework. Neste artigo, exploraremos as principais funcionalidades que facilitam o desenvolvimento e aumentam a segurança.\n\n## Proxy vs Middleware\n\nA mudança mais notável é a substituição do `middleware.ts` pelo `proxy.ts`. Esta mudança proporciona:\n\n- Melhor segurança com runtime Node.js\n- Padrões de interceptação de requisições mais claros\n- Desempenho melhorado\n\n## Cache Components\n\nO novo modelo de cache usando Partial Pre-Rendering (PPR) permite navegação instantânea mantendo a frescura dos dados.\n\n## Padrões de Autenticação\n\nA autenticação moderna no Next.js 16 deve aproveitar Server Components e Server Actions em vez de gerenciamento de estado do lado do cliente.\n\nFique atento para mais tutoriais!"
+      },
+      "es": {
+        "title": "Empezando con Next.js 16: Novedades",
+        "excerpt": "Explore las últimas funcionalidades de Next.js 16 incluyendo Proxy, Cache Components y patrones de autenticación mejorados.",
+        "content": "# Empezando con Next.js 16\n\nNext.js 16 trae mejoras significativas al framework. En este artículo, exploraremos las principales funcionalidades que facilitan el desarrollo y aumentan la seguridad.\n\n## Proxy vs Middleware\n\nEl cambio más notable es el reemplazo de `middleware.ts` con `proxy.ts`. Este cambio proporciona:\n\n- Mejor seguridad con runtime Node.js\n- Patrones de intercepción de solicitudes más claros\n- Rendimiento mejorado\n\n## Cache Components\n\nEl nuevo modelo de caché usando Partial Pre-Rendering (PPR) permite navegación instantánea manteniendo la frescura de los datos.\n\n## Patrones de Autenticación\n\nLa autenticación moderna en Next.js 16 debe aprovechar Server Components y Server Actions en lugar de gestión de estado del lado del cliente.\n\n¡Mantente atento para más tutoriales!"
+      }
+    }
+  },
+  {
+    "id": "2",
+    "slug": "design-trends-2026",
+    "published": true,
+    "featured": true,
+    "createdAt": "2026-01-10T14:30:00Z",
+    "updatedAt": "2026-01-12T09:15:00Z",
+    "category": "design",
+    "subcategory": "ui-ux",
+    "tags": ["Design", "UI/UX", "Trends"],
+    "translations": {
+      "en": {
+        "title": "Design Trends for 2026: What to Expect",
+        "excerpt": "Discover the cutting-edge design trends that will shape the digital landscape in 2026.",
+        "content": "# Design Trends for 2026\n\nThe design world is constantly evolving. Here are the top trends we expect to dominate in 2026:\n\n## 1. Glassmorphism 2.0\n\nGlassmorphism continues to evolve with more refined transparency effects and subtle gradients.\n\n## 2. AI-Assisted Design\n\nArtificial Intelligence is becoming an integral part of the design process, helping designers create faster and more efficiently.\n\n## 3. Neubrutalism\n\nA bold, raw aesthetic that embraces stark contrasts and unpolished elements.\n\n## 4. 3D Elements\n\nThree-dimensional elements are becoming more accessible and easier to implement in web design.\n\nStay ahead of the curve!"
+      },
+      "pt": {
+        "title": "Tendências de Design para 2026: O Que Esperar",
+        "excerpt": "Descubra as tendências de design de ponta que moldarão o cenário digital em 2026.",
+        "content": "# Tendências de Design para 2026\n\nO mundo do design está em constante evolução. Aqui estão as principais tendências que esperamos dominar em 2026:\n\n## 1. Glassmorphism 2.0\n\nO glassmorphism continua evoluindo com efeitos de transparência mais refinados e gradientes sutis.\n\n## 2. Design Assistido por IA\n\nA Inteligência Artificial está se tornando parte integral do processo de design, ajudando designers a criar mais rápido e eficientemente.\n\n## 3. Neubrutalismo\n\nUma estética ousada e crua que abraça contrastes marcantes e elementos não polidos.\n\n## 4. Elementos 3D\n\nElementos tridimensionais estão se tornando mais acessíveis e fáceis de implementar no design web.\n\nMantenha-se à frente!"
+      },
+      "es": {
+        "title": "Tendencias de Diseño para 2026: Qué Esperar",
+        "excerpt": "Descubre las tendencias de diseño de vanguardia que darán forma al panorama digital en 2026.",
+        "content": "# Tendencias de Diseño para 2026\n\nEl mundo del diseño está en constante evolución. Aquí están las principales tendencias que esperamos dominen en 2026:\n\n## 1. Glassmorphism 2.0\n\nEl glassmorphism continúa evolucionando con efectos de transparencia más refinados y gradientes sutiles.\n\n## 2. Diseño Asistido por IA\n\nLa Inteligencia Artificial se está convirtiendo en parte integral del proceso de diseño, ayudando a los diseñadores a crear más rápido y eficientemente.\n\n## 3. Neubrutalismo\n\nUna estética audaz y cruda que abraza contrastes marcantes y elementos sin pulir.\n\n## 4. Elementos 3D\n\nLos elementos tridimensionales se están volviendo más accesibles y fáciles de implementar en el diseño web.\n\n¡Mantente a la vanguardia!"
+      }
+    }
+  },
+  {
+    "id": "3",
+    "slug": "building-portfolio-with-json",
+    "published": true,
+    "featured": false,
+    "createdAt": "2026-01-05T08:00:00Z",
+    "updatedAt": "2026-01-05T08:00:00Z",
+    "category": "development",
+    "subcategory": "fullstack",
+    "tags": ["Portfolio", "JSON", "Tutorial"],
+    "translations": {
+      "en": {
+        "title": "Building a Portfolio with JSON: A Complete Guide",
+        "excerpt": "Learn how to create a powerful portfolio website using JSON as your database with Next.js 16.",
+        "content": "# Building a Portfolio with JSON\n\nIn this comprehensive guide, we'll build a portfolio website that uses JSON files as a database.\n\n## Why JSON?\n\nUsing JSON as a database offers several advantages:\n\n- **Simplicity**: No database setup required\n- **Version Control**: Track changes with Git\n- **Performance**: Fast reads for static content\n- **Flexibility**: Easy to modify structure\n\n## Architecture\n\nOur portfolio uses:\n- Next.js 16 for the frontend\n- LocalStorage for client-side persistence\n- JSON files for default data\n\n## Implementation\n\n### Step 1: Data Structure\n\nFirst, define your data structure in JSON files...\n\n### Step 2: Custom Hooks\n\nCreate custom hooks to manage the data...\n\n### Step 3: Admin Interface\n\nBuild an admin panel to manage content...\n\nStart building today!"
+      },
+      "pt": {
+        "title": "Construindo um Portfólio com JSON: Guia Completo",
+        "excerpt": "Aprenda a criar um site de portfólio poderoso usando JSON como banco de dados com Next.js 16.",
+        "content": "# Construindo um Portfólio com JSON\n\nNeste guia completo, construiremos um site de portfólio que usa arquivos JSON como banco de dados.\n\n## Por que JSON?\n\nUsar JSON como banco de dados oferece várias vantagens:\n\n- **Simplicidade**: Não requer configuração de banco de dados\n- **Controle de Versão**: Acompanhe mudanças com Git\n- **Performance**: Leituras rápidas para conteúdo estático\n- **Flexibilidade**: Fácil de modificar estrutura\n\n## Arquitetura\n\nNosso portfólio usa:\n- Next.js 16 para o frontend\n- LocalStorage para persistência client-side\n- Arquivos JSON para dados padrão\n\n## Implementação\n\n### Passo 1: Estrutura de Dados\n\nPrimeiro, defina sua estrutura de dados em arquivos JSON...\n\n### Passo 2: Hooks Personalizados\n\nCrie hooks personalizados para gerenciar os dados...\n\n### Passo 3: Interface de Admin\n\nConstrua um painel administrativo para gerenciar conteúdo...\n\nComece a construir hoje!"
+      },
+      "es": {
+        "title": "Construyendo un Portafolio con JSON: Guía Completa",
+        "excerpt": "Aprende a crear un sitio de portafolio poderoso usando JSON como base de datos con Next.js 16.",
+        "content": "# Construyendo un Portafolio con JSON\n\nEn esta guía completa, construiremos un sitio de portafolio que usa archivos JSON como base de datos.\n\n## ¿Por qué JSON?\n\nUsar JSON como base de datos ofrece varias ventajas:\n\n- **Simplicidad**: No requiere configuración de base de datos\n- **Control de Versiones**: Rastrea cambios con Git\n- **Rendimiento**: Lecturas rápidas para contenido estático\n- **Flexibilidad**: Fácil de modificar estructura\n\n## Arquitectura\n\nNuestro portafolio usa:\n- Next.js 16 para el frontend\n- LocalStorage para persistencia client-side\n- Archivos JSON para datos por defecto\n\n## Implementación\n\n### Paso 1: Estructura de Datos\n\nPrimero, define tu estructura de datos en archivos JSON...\n\n### Paso 2: Hooks Personalizados\n\nCrea hooks personalizados para gestionar los datos...\n\n### Paso 3: Interfaz de Admin\n\nConstruye un panel administrativo para gestionar contenido...\n\n¡Empieza a construir hoy!"
+      }
+    }
+  }
+]

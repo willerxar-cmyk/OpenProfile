@@ -3,6 +3,7 @@
     "home": "Home",
     "portfolio": "Portfolio",
     "curriculum": "Curriculum",
+    "blog": "Blog",
     "admin": "Admin",
     "login": "Login",
     "logout": "Logout"
@@ -89,6 +90,23 @@
     "totalProjects": "Total Projects",
     "totalCVItems": "Total CV Items",
     "featuredProjects": "Featured Projects"
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Insights, tutorials, and thoughts on design, development, and creativity",
+    "readMore": "Read more",
+    "search": "Search articles...",
+    "featured": "Featured",
+    "allPosts": "All Posts",
+    "published": "Published",
+    "drafts": "Drafts",
+    "newPost": "New Post",
+    "editPost": "Edit Post",
+    "minutesRead": "min read",
+    "share": "Share",
+    "relatedPosts": "Related Posts",
+    "backToBlog": "Back to Blog",
+    "author": "Author"
   },
   "common": {
     "loading": "Loading...",
